@@ -7,9 +7,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
-
-// 다시 생각해보니 최솟값은 올림차순 배열을 써야 한다..
-
 public class Guild {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
