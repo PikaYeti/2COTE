@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
-
-// 분기마다 값 구하기
 public class Miro {
 	
 	static boolean ifmiro(int x, int y, int n, int m) {
