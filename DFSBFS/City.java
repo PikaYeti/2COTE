@@ -1,4 +1,4 @@
-package com.ssafy.stack;
+package DFSBFS;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.util.StringTokenizer;
 public class City {
 
 	public static void main(String[] args) throws IOException {
-		
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		
 		StringTokenizer st = new StringTokenizer(bf.readLine());
@@ -25,8 +24,8 @@ public class City {
 		}
 		
 		int [][] city = new int[info[1]][2]; // 도시의 이동가능 경로를 담아줄 배열 선언
-		int [] cm = new int[info[0]]; // 출발 도시 번호에서 몇번만에 n번도시 (인덱스 + 1)로 이동 가능한지
-		boolean [] inq = new boolean[info[0]]; // 출발 도시 번호에서 몇번만에 n번도시 (인덱스 + 1)로 이동 가능한지
+		int [] visit = new int[info[0]];
+		int [] answer = new int[info[0]];
 		
 		for (int i = 0 ; i < info[1] ; i ++) {
 			StringTokenizer st1 = new StringTokenizer(bf.readLine());
@@ -35,46 +34,37 @@ public class City {
 			}
 		}
 		
-		nextcity.add(info[3]); // 출발 도시 번호를 큐에 넣어줌
-		inq[info[3] - 1] = true;
+//		for (int i = 0; i < info[1] ; i++) {
+//			cityG[city[i][0] - 1][city[i][1] - 1] = 1;
+//		}
+		nextcity.add(info[3]); 
 		
-		
-		while(!nextcity.isEmpty()) {
+		while (!nextcity.isEmpty()) {
 			int n = nextcity.poll();
-			for (int i = 0 ; i < city.length ; i ++) {
-				if (city[i][0] == n) { // 만약 city[i][0] - 출발 도시 경로가 n이면
-					
-					if (cm[city[i][1] - 1] > 0) { // 이미 도착 지점에 값이 저장되어 있다면 최소값이 저장되어 있는 것이므로 건드리지 X
-						cm[city[i][1] - 1] = cm[city[i][0] - 1];
-					}
-					else { // 도착지점에 출발지점의 값 + 1(1번 이동햇으니가)
-						cm[city[i][1] - 1] = cm[city[i][0] - 1] + 1;
-					}
-					if (inq[city[i][1] - 1] != true) {
-						nextcity.add(city[i][1]);
-						inq[city[i][1] - 1] = true;
-					}
-					
+			for (int j = 0 ; j < city.length ; j++) {
+				if ((city[j][0] == n) && (visit[city[j][1] - 1] != 1)){
+					answer[city[j][1] - 1] = answer[city[j][0] - 1] + 1;
+					visit[city[j][1] - 1] = 1;
+					nextcity.add(city[j][1]);
 				}
 			}
+			
 		}
 		
-		System.out.println(Arrays.toString(cm));
-		System.out.println(Arrays.toString(inq));
-		
-		
 		int cnt = 0;
-		for (int i = 0 ; i < cm.length ; i++) {
-			if (cm[i] == info[2]) { // 만약 저장 경로가 거리 정보와 같다면
+		for (int i = 0 ; i < answer.length ; i++) {
+			if (answer[i] == info[2]) { // 만약 저장 경로가 거리 정보와 같다면
 				sb.append(i + 1).append("\n"); //출력
 			} else {
 				cnt ++;
 			}
 		}
-		if (cnt == cm.length) { // 저장된값이 없다면
+		if (cnt == answer.length) { // 저장된값이 없다면
 			sb.append(-1); // -1 출력
 		}
 		System.out.println(sb);
+		
 	}
 
 }
+
