@@ -3,6 +3,7 @@ package com.ssafy.stack;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -14,7 +15,7 @@ public class City {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		
 		StringTokenizer st = new StringTokenizer(bf.readLine());
-		
+		StringBuilder sb = new StringBuilder();
 		Queue<Integer> nextcity = new LinkedList<>(); // 출발 도시를 저장할 큐를 선언
 		
 		int [] info = new int[4]; // 도시 수, 도로 수, 거리 정보, 출발 도시 번호를 담을 배열 선언
@@ -25,6 +26,7 @@ public class City {
 		
 		int [][] city = new int[info[1]][2]; // 도시의 이동가능 경로를 담아줄 배열 선언
 		int [] cm = new int[info[0]]; // 출발 도시 번호에서 몇번만에 n번도시 (인덱스 + 1)로 이동 가능한지
+		boolean [] inq = new boolean[info[0]]; // 출발 도시 번호에서 몇번만에 n번도시 (인덱스 + 1)로 이동 가능한지
 		
 		for (int i = 0 ; i < info[1] ; i ++) {
 			StringTokenizer st1 = new StringTokenizer(bf.readLine());
@@ -34,6 +36,8 @@ public class City {
 		}
 		
 		nextcity.add(info[3]); // 출발 도시 번호를 큐에 넣어줌
+		inq[info[3] - 1] = true;
+		
 		
 		while(!nextcity.isEmpty()) {
 			int n = nextcity.poll();
@@ -46,22 +50,31 @@ public class City {
 					else { // 도착지점에 출발지점의 값 + 1(1번 이동햇으니가)
 						cm[city[i][1] - 1] = cm[city[i][0] - 1] + 1;
 					}
-					nextcity.add(city[i][1]);
+					if (inq[city[i][1] - 1] != true) {
+						nextcity.add(city[i][1]);
+						inq[city[i][1] - 1] = true;
+					}
+					
 				}
 			}
 		}
 		
+		System.out.println(Arrays.toString(cm));
+		System.out.println(Arrays.toString(inq));
+		
+		
 		int cnt = 0;
 		for (int i = 0 ; i < cm.length ; i++) {
 			if (cm[i] == info[2]) { // 만약 저장 경로가 거리 정보와 같다면
-				System.out.println(i+1); //출력
+				sb.append(i + 1).append("\n"); //출력
 			} else {
 				cnt ++;
 			}
 		}
 		if (cnt == cm.length) { // 저장된값이 없다면
-			System.out.println(-1); // -1 출력
+			sb.append(-1); // -1 출력
 		}
+		System.out.println(sb);
 	}
 
 }
