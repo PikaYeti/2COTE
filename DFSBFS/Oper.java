@@ -19,7 +19,7 @@ public class Oper {
 	
 	
 	// 저번시간에 배웠던 순열 이용해서 연산자 순서 순열 만들어줌
-	static void combination(int [] oper, int [] arr, boolean [] visit, int [] save, int x, int y) {
+	static void permutation(int [] oper, int [] arr, boolean [] visit, int [] save, int x, int y) {
 		
 		
 		
@@ -68,7 +68,7 @@ public class Oper {
 			if (!visit[i]) {
 				visit[i] = true;
 				oper[x] = save[i];
-				combination(oper, arr, visit, save, x + 1, y);
+				permutation(oper, arr, visit, save, x + 1, y);
 				visit[i] = false;
 			}
 		}
@@ -106,7 +106,7 @@ public class Oper {
 		}	
 		
 		// 함수 불러주기
-		combination(maxo, arr, visit, save, 0, n - 1);
+		permutation(maxo, arr, visit, save, 0, n - 1);
 		
 		System.out.println(max); // 최댓값 출력
 		System.out.print(min); // 최솟값 출력
